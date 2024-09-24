@@ -12,6 +12,13 @@ export default function App () {
     interestRate : ''
 
    })
+   function handleClear () {
+    setFormData({
+      mortgageAmount : '',
+      term : '',
+      interestRate : '',
+    })
+   }
   const totalVal = val * 12 * Number(formData.term)
   return (
     <>
@@ -23,6 +30,7 @@ export default function App () {
                 setFormData={setFormData}
                 setShowRes={setShowRes}
                 setVal={setVal}
+                handleClear={handleClear}
                 />
                 
                {

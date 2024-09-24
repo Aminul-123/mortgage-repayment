@@ -1,36 +1,33 @@
 import { useState } from "react";
 
 //{mortgageAmount, setMortgageAmount, term , setTerm, interestRate, setInterestRate, setMonthlyPayment, setIsValid}
-export default function Form ({ mortgageAmount, term, interestRate, formData, setFormData, setShowRes, setVal}) {
+export default function Form ({ mortgageAmount, term, interestRate, formData, setFormData, setShowRes, setVal, handleClear}) {
   
    const [errors, setErrors] = useState({});
-   const [type , setType] = useState('');
 
    function handleChange (e) {
-    const {name, value, checked} = e.target;
+    const {name, value} = e.target;
     
  
-    console.log(name, checked);
-    if (name === 'interest' && checked) {
-        setType('Interest');
-    }
-    else if (name === 'repayment' && checked) {
-        setType('Repayment');
-    }
-    else  {
-       const err =  errors.newError ('This field is required');
-        console.log(err);
-    }
+    // console.log(name, checked);
+    // if (name === 'interest' && checked) {
+    //     setType('Interest');
+    // }
+    // else if (name === 'repayment' && checked) {
+    //     setType('Repayment');
+    // }
+    // else  {
+    //    const err =  errors.newError ('This field is required');
+    //     console.log(err);
+    // }
 
    
 
-   console.log(type )
+ //  console.log(type )
     setFormData({
         ...formData, [name] : value
     })
    }
-
-
 
 
    
@@ -47,9 +44,7 @@ export default function Form ({ mortgageAmount, term, interestRate, formData, se
         if (!formData.interestRate.trim()) {
             validationErrors.interestRateError = 'This field is required';
         }
-        if (!type.trim())  {
-            validationErrors.typeError = 'this field is required';
-        }
+      
 
         setErrors(validationErrors)
 
@@ -66,23 +61,23 @@ export default function Form ({ mortgageAmount, term, interestRate, formData, se
         }
 
     }
- //  console.log(errors)
-   // console.log(monthlyPayment)
+
+   
+
     return (
         <>
         <div className="form">
             <div className="heading">
                 <h3>Mortgage calculator</h3>
-                <span className="textSize"> clear all </span>
+                <span className="textSize" onClick={handleClear}> clear all </span>
             </div>
             <form className="textSize" onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="amount">Mortgage amount</label>
                     <div className="inputAmount">
-                        <span className={`euro ${errors.mortgageAmountError ? 'allError' : ''}`}>&pound;</span>
+                        <span className={` ${errors.mortgageAmountError ? ' euro allError ' : 'euro notERR'}`}>&pound;</span>
                         <input type="number" id="amount" className="inputOutline" name="mortgageAmount"
-                        // value={mortgageAmount}
-                        // onChange={(e) => setMortgageAmount(e.target.value)} 
+                       
                         onChange={handleChange}
                         />
                         {
@@ -97,12 +92,11 @@ export default function Form ({ mortgageAmount, term, interestRate, formData, se
                             <label htmlFor="term">Mortgage term</label>
                             <div className="term-flex">
                                 <input type="number" id="term"  
-                                // value={term}
-                                // onChange={(e) => setTerm(e.target.value)}
+                               
                                 name="term"
                                 onChange={handleChange}
                                  />
-                                <span>years</span>
+                                <span className={`${errors.termError ? 'year allError' : 'year notERR'}`}>years</span>
 
                                 {
                                     errors.termError && (
@@ -116,12 +110,11 @@ export default function Form ({ mortgageAmount, term, interestRate, formData, se
                             <label htmlFor="rate">Interest rate</label>
                             <div className="rate-flex ">
                                 <input type="number" id="rate" 
-                                // value={interestRate}
-                                // onChange={(e) => setInterestRate(e.target.value)}
+                              
                                 name="interestRate"
                                 onChange={handleChange}
                                  />
-                                <span>%</span>
+                                <span className={`${errors.interestRateError ? 'allError' : 'notERR'}`}>%</span>
                                 {errors.interestRateError && (
                                     <p className="error rateErr">{errors.interestRateError} </p>
                                 )}
@@ -133,17 +126,17 @@ export default function Form ({ mortgageAmount, term, interestRate, formData, se
                         <div id="mortgage-type">
                             <button className="option">
                                 <input type="radio" className="noOutline" 
-                                name="repayment" onChange={handleChange}  />
+                                name="repayment" defaultChecked  />
                                 <span>Repayment</span>
                             </button>
                             <button className="option"> 
                                 <input type="radio" className="noOutline" 
-                                name="interest" onChange={handleChange} />
+                                name="interest" />
                                 <span>Interest only</span>
                             </button>
-                            {
+                            {/* {
                                 errors.typeError && <p className="error"> {errors.typeError} </p>
-                            }
+                            } */}
                         </div>
 
                     </div>
